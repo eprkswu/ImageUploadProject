@@ -5,7 +5,6 @@ var easyimg = require('easyimage');
 var path = require('path');
 var appRoot = require('app-root-path');
 var multer = require('multer');
-var upload = multer({dest:path.join(appRoot.path,'/public/images/')});
 /*
 var upload_success = false;
 var upload_file_path = '';
@@ -27,9 +26,19 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/imageUpload', upload, function(req, res, next){
-
-	console.log(upload);
+router.post('/imageUpload', function(req, res, next){
+	router.use(multer({
+		dest:path.join(appRoot.path,'/public/images/'),
+		rename:function(fieldname, filename){
+			return feildname;
+		},
+		onFileUploadStart:function(file){
+			console.log(file);
+		},
+		onFileUploadComplete:function(file){
+			console.log(file);
+		}
+	}));
 	/*
 	var upload_path = appRoot.path;
 	
