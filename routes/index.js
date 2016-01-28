@@ -38,7 +38,7 @@ router.post('/imageUpload', multer({
 		console.log(file);
 	}
 }).single('uploadFile'), function(req, res, next){
-	res.send(123132);
+	res.status(200).send(123132);
 	/*
 	var upload_path = appRoot.path;
 	
