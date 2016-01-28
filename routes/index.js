@@ -1,13 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-var bodyParser = require('body-parser');
 var easyimg = require('easyimage');
 var path = require('path');
 var appRoot = require('app-root-path');
-
-var app = express();
-app.use(bodyParser());
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,8 +11,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/imageUpload', function(req, res, next){
-	
-	console.log(bodyParser);
+
 	var upload_path = appRoot.path;
 	
 	var return_object = {};
