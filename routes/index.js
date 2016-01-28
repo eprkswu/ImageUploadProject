@@ -12,13 +12,14 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/imageUpload', function(req, res, next){
+router.post('/imageUpload', upload.single('uploadFile'), function(req, res, next){
 
 	var upload_path = appRoot.path;
 	
 	var return_object = {};
 	
 	console.log(req.files);
+	console.log(req.file);
 	console.log(req.body);
 	
 	fs.readFile(req.files.uploadFile.path, function(error, data){
