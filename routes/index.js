@@ -15,6 +15,9 @@ router.post('/imageUpload', function(req, res, next){
 	
 	var return_object = {};
 	
+	console.log(req.files);
+	console.log(req.body);
+	
 	fs.readFile(req.files.uploadFile.path, function(error, data){
 		var file_path = path.join(appRoot.path,'/public/images/'+req.files.uploadFile.name);
 		
