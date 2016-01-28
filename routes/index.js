@@ -15,6 +15,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/imageUpload', function(req, res, next){
+	
+	console.log(bodyParser);
 	var upload_path = appRoot.path;
 	
 	var return_object = {};
