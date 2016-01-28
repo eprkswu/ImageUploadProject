@@ -26,19 +26,19 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/imageUpload', function(req, res, next){
-	router.use(multer({
-		dest:path.join(appRoot.path,'/public/images/'),
-		rename:function(fieldname, filename){
-			return fieldname;
-		},
-		onFileUploadStart:function(file){
-			console.log(file);
-		},
-		onFileUploadComplete:function(file){
-			console.log(file);
-		}
-	}));
+router.post('/imageUpload', multer({
+	dest:path.join(appRoot.path,'/public/images/'),
+	rename:function(fieldname, filename){
+		return fieldname;
+	},
+	onFileUploadStart:function(file){
+		console.log(file);
+	},
+	onFileUploadComplete:function(file){
+		console.log(file);
+	}
+}).single('uploadFile'), function(req, res, next){
+	res.send(123132);
 	/*
 	var upload_path = appRoot.path;
 	
