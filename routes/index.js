@@ -18,7 +18,7 @@ router.use(multer({
 		upload_file_path = '';
 		upload_success = false;
 	}
-}));
+}).single('uploadFile'));
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
