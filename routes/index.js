@@ -28,8 +28,9 @@ router.get('/', function(req, res, next) {
 
 router.post('/imageUpload', multer({
 	dest:path.join(appRoot.path,'/public/images/')
-}).single('uploadFile'), function(req, res, next){
-	console.log(req);
+}).array(), function(req, res, next){
+	console.log(req.files);
+	console.log(req.file);
 	res.json({result:'12312'});
 	/*
 	var upload_path = appRoot.path;
