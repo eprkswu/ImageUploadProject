@@ -22,16 +22,18 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/imageUpload', upload.single('uploadFile'), function(req, res, next){
+router.post('/imageUpload', function(req, res, next){
 
 	var upload_path = appRoot.path;
 	
 	var return_object = {};
 	
-	if(upload_sucess == true){
+	if(upload_success == true){
 		return_object = create_thumbnail(upload_file_path);
 		
 		res.send(return_object);
+	}else{
+		res.send('121313');
 	}
 });
 
