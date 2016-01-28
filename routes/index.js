@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
 router.post('/imageUpload', multer({
 	dest:path.join(appRoot.path,'/public/images/'),
 	rename:function(fieldname, filename){
+		console.log(fieldname + ' ' + filename);
 		return fieldname;
 	},
 	onFileUploadStart:function(file){
