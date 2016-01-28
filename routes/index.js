@@ -27,15 +27,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/imageUpload', upload.single('uploadFile'), function(req, res, next){
+router.post('/imageUpload', upload, function(req, res, next){
 
-	upload(req, res, function(err){
-		if(err){
-			res.send('Error!!');
-		}else{
-			console.log(req);
-		}
-	});
+	console.log(upload);
 	/*
 	var upload_path = appRoot.path;
 	
