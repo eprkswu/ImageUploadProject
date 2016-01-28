@@ -5,7 +5,8 @@ var easyimg = require('easyimage');
 var path = require('path');
 var appRoot = require('app-root-path');
 var multer = require('multer');
-
+var upload = multer({dest:path.join(appRoot.path,'/public/images/')});
+/*
 var upload_success = false;
 var upload_file_path = '';
 router.use(multer({
@@ -19,18 +20,29 @@ router.use(multer({
 		upload_success = false;
 	}
 }).single('uploadFile'));
+*/
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/imageUpload', function(req, res, next){
+router.post('/imageUpload', upload.single('uploadFile'), function(req, res, next){
 
+	upload(req, res, function(err){
+		if(err){
+			res.send('Error!!');
+		}else{
+			console.log(req);
+		}
+	});
+	/*
 	var upload_path = appRoot.path;
 	
 	var return_object = {};
+	console.log(req);
 	console.log(req.files);
+	
 	if(upload_success == true){
 		return_object = create_thumbnail(upload_file_path);
 		
@@ -38,6 +50,7 @@ router.post('/imageUpload', function(req, res, next){
 	}else{
 		res.send('121313');
 	}
+	*/
 });
 
 var create_thumbnail = function(original_image_path){
