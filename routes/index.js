@@ -5,8 +5,16 @@ var easyimg = require('easyimage');
 var path = require('path');
 var appRoot = require('app-root-path');
 var multer = require('multer');
+
+var upload_success = false;
+var upload_file_path = '';
 var upload = multer({
-	dest:path.join(appRoot.path,'/public/images/')
+	dest:path.join(appRoot.path,'/public/images/'),
+	onFileUploadComplete:function(file){
+		console.log(file);
+		upload_file_path = '';
+		upload_success = false;
+	}
 });
 
 /* GET home page. */
@@ -20,7 +28,11 @@ router.post('/imageUpload', upload.single('uploadFile'), function(req, res, next
 	
 	var return_object = {};
 	
-	return_object = create_thumbnail(file_path);
+	if(upload_sucess == true){
+		return_object = create_thumbnail(upload_file_path);
+		
+		res.send(return_object);
+	}
 });
 
 var create_thumbnail = function(original_image_path){
