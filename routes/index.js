@@ -4,6 +4,8 @@ var fs = require('fs');
 var easyimg = require('easyimage');
 var path = require('path');
 var appRoot = require('app-root-path');
+var multer = require('multer');
+var upload = multer();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
