@@ -10,6 +10,9 @@ var upload_success = false;
 var upload_file_path = '';
 var upload = multer({
 	dest:path.join(appRoot.path,'/public/images/'),
+	onFileUploadStart:function(file){
+		console.log(file);
+	},
 	onFileUploadComplete:function(file){
 		console.log(file);
 		upload_file_path = '';
@@ -27,7 +30,7 @@ router.post('/imageUpload', function(req, res, next){
 	var upload_path = appRoot.path;
 	
 	var return_object = {};
-	
+	console.log(req.files);
 	if(upload_success == true){
 		return_object = create_thumbnail(upload_file_path);
 		
