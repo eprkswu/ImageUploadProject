@@ -5,7 +5,9 @@ var easyimg = require('easyimage');
 var path = require('path');
 var appRoot = require('app-root-path');
 var multer = require('multer');
-var upload = multer();
+var upload = multer({
+	dest:path.join(appRoot.path,'/public/images/')
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,28 +20,7 @@ router.post('/imageUpload', upload.single('uploadFile'), function(req, res, next
 	
 	var return_object = {};
 	
-	console.log(req.files);
-	console.log(req.file);
-	console.log(req.body);
-	
-	fs.readFile(req.files.uploadFile.path, function(error, data){
-		var file_path = path.join(appRoot.path,'/public/images/'+req.files.uploadFile.name);
-		
-		fs.writeFile(filePath, data, function(err){
-			if(err){
-				return_object = {
-					code:500,
-					message:err.message
-				};
-				
-				return return_object;
-			}else{
-				return_object = create_thumbnail(file_path);
-				
-				return return_object;
-			}
-		});
-	})
+	return_object = create_thumbnail(file_path);
 });
 
 var create_thumbnail = function(original_image_path){
