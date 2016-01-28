@@ -8,7 +8,7 @@ var multer = require('multer');
 
 var upload_success = false;
 var upload_file_path = '';
-var upload = multer({
+router.use(multer({
 	dest:path.join(appRoot.path,'/public/images/'),
 	onFileUploadStart:function(file){
 		console.log(file);
@@ -18,7 +18,7 @@ var upload = multer({
 		upload_file_path = '';
 		upload_success = false;
 	}
-});
+}));
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
