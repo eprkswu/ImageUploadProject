@@ -33,12 +33,12 @@ router.post('/imageUpload', multer({
      		function(return_object, callback){
      			callback(null, return_object);
      		}
-     	],function(err, results){
-			console.log(results);
+     	],function(err, return_object){
+			return_object_list.push(return_object);
      	});
 	}
 	
-	res.json(return_object);
+	res.json(return_object_list);
 });
 
 var rename_file = function(original_name, old_file_path, new_file_path, callback){
