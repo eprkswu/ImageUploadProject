@@ -5,21 +5,6 @@ var easyimg = require('easyimage');
 var path = require('path');
 var appRoot = require('app-root-path');
 var multer = require('multer');
-/*
-var upload_success = false;
-var upload_file_path = '';
-router.use(multer({
-	dest:path.join(appRoot.path,'/public/images/'),
-	onFileUploadStart:function(file){
-		console.log(file);
-	},
-	onFileUploadComplete:function(file){
-		console.log(file);
-		upload_file_path = '';
-		upload_success = false;
-	}
-}).single('uploadFile'));
-*/
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -29,9 +14,13 @@ router.get('/', function(req, res, next) {
 router.post('/imageUpload', multer({
 	dest:path.join(appRoot.path,'/public/images/')
 }).any(), function(req, res, next){
-	console.log(req.files);
-	console.log(req.file);
+	
+	for(var i in req.files){
+		console.log(req.files[i]);
+	}
 	res.json({result:'12312'});
+	
+	//파일 이동 처리
 	/*
 	var upload_path = appRoot.path;
 	
