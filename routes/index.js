@@ -112,6 +112,7 @@ var create_thumbnail = function(object, parent_callback){
 		
 		var return_object = {};
 		
+		/*
 		easyimg.thumbnail({
 			src:original_image_path,
 			dst:path.join(appRoot.path,'/public/images/thumbnail/' + new_file_name),
@@ -141,8 +142,9 @@ var create_thumbnail = function(object, parent_callback){
 				//callback(null, return_object);
 			}
 		);
+		*/
 	},function(err){
-		console.log(object);
+		//console.log(object);
 		parent_callback(null, object);
 	});
 };
