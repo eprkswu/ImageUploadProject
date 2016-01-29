@@ -100,6 +100,8 @@ var get_file_info = function(object, parent_callback){
 var create_thumbnail = function(object, parent_callback){
 	var thumbnail_max_width = [130, 200, 300];
 	
+	console.log(object);
+	
 	var original_image_path = object.original_image_path;
 	
 	async.each(thumbnail_max_width, function(max_width, callback){
