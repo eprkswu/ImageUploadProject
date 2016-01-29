@@ -20,25 +20,25 @@ router.post('/imageUpload', multer({
 	
 	var file_list = req.files;
 	
-	for(var i in file_list){
+	async.each(file_list, function(file, callback){
 		async.waterfall([
-     		function(callback){
-     			var old_file_path = file_list[i].path;
- 				var new_file_path = path.join(appRoot.path,'/public/images/', file_list[i].originalname);
- 				rename_file(file_list[i].originalname, old_file_path, new_file_path, callback);
-     		},
-     		function(return_object, callback){
-     			get_file_info(return_object, callback);
-     		},
-     		function(return_object, callback){
-     			callback(null, return_object);
-     		}
-     	],function(err, return_object){
-			return_object_list.push(return_object);
-     	});
-	}
-	
-	res.json(return_object_list);
+      		function(callback){
+      			var old_file_path = file_list[i].path;
+  				var new_file_path = path.join(appRoot.path,'/public/images/', file_list[i].originalname);
+  				rename_file(file_list[i].originalname, old_file_path, new_file_path, callback);
+      		},
+      		function(return_object, callback){
+      			get_file_info(return_object, callback);
+      		},
+      		function(return_object, callback){
+      			callback(null, return_object);
+      		}
+      	],function(err, return_object){
+ 			return_object_list.push(return_object);
+      	});
+	}, function(err){
+		res.json(return_object_list);
+	});
 });
 
 var rename_file = function(original_name, old_file_path, new_file_path, callback){
