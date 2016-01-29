@@ -23,8 +23,6 @@ router.post('/imageUpload', multer({
 	async.each(file_list, function(file, callback){
 		async.waterfall([
       		function(callback){
-      			var old_file_path = file.path;
-      			
       			switch(file.mimetype){
       				case 'image/jpeg':
       				case 'image/pjpeg':
@@ -32,6 +30,7 @@ router.post('/imageUpload', multer({
       				case 'image/png':
       				case 'image/bmp':
       				case 'image/x-windows-bmp':
+      					var old_file_path = file.path;
       	  				var new_file_path = path.join(appRoot.path,'/public/images/', file.originalname);
       	  				rename_file(file.originalname, old_file_path, new_file_path, callback);
       	  				break;
@@ -43,7 +42,8 @@ router.post('/imageUpload', multer({
       						original_image_path:'',
       						original_name:''
       					};
-      					fs.unlinkSync(old_file_path);
+      				console.log(file);
+      					fs.unlinkSync(file.path);
       					callback(new Error(return_object.message), return_object);
       			}
       		},
