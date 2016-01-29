@@ -43,6 +43,9 @@ var rename_file = function(old_file_path, new_file_path){
 			
 			return return_object;
 		}else{
+			return_object = {
+				code:200	
+			};
 			return return_object;
 		}
 	});
