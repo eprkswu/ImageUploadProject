@@ -12,6 +12,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/imageUploadPopup', function(req, res, next){
+	res.render('imageUploadPopup');
+});
+
 router.post('/imageUpload', multer({
 	dest:path.join(appRoot.path,'/public/images/')
 }).any(), function(req, res, next){
@@ -62,7 +66,7 @@ router.post('/imageUpload', multer({
  			callback(null);
       	});
 	}, function(err){
-		res.json(return_object_list);
+		res.render('imageUploadSuccess', {return_object_list:return_object_list});
 	});
 });
 
