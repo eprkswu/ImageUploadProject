@@ -31,8 +31,7 @@ router.post('/imageUpload', multer({
       			get_file_info(return_object, callback);
       		},
       		function(return_object, callback){
-      			console.log(return_object);
-      			callback(null, return_object);
+      			create_thumbnail(return_object, callback);
       		}
       	],function(err, return_object){
  			return_object_list.push(return_object);
@@ -51,6 +50,7 @@ var rename_file = function(original_name, old_file_path, new_file_path, callback
 			return_object = {
 				code:500,
 				message:err.message,
+				original_image_path:'',
 				original_name:original_name
 			};
 			
@@ -58,6 +58,7 @@ var rename_file = function(original_name, old_file_path, new_file_path, callback
 		}else{
 			return_object = {
 				code:200,
+				message:'success',
 				original_image_path:new_file_path,
 				original_name:original_name
 			}
@@ -72,6 +73,7 @@ var get_file_info = function(object, callback){
 		function(file){
 			return_object = {
 				code:200,
+				message:'success';
 				original_image_path:object.original_image_path,
 				file_info:file
 			};
@@ -82,6 +84,7 @@ var get_file_info = function(object, callback){
 			return_object = {
 				code:500,
 				message:err.message,
+				original_image_path:'',
 				original_name:object.original_name
 			};
 			
@@ -90,6 +93,51 @@ var get_file_info = function(object, callback){
 	);
 };
 
+var create_thumbnail = function(object, callback){
+	var thumbnail_max_width = [130, 200, 300];
+	
+	var original_image_path = object.original_image_path;
+	
+	async.each(thumbnail_max_width, function(max_width, callback){
+		var thumbnail_max_height = max_width * (file.height / file.width);
+		var file_name_split = file.name.split('.');
+		var original_file_name = file_name_split[0];
+		var file_ext = file_name_split[1];
+		var new_file_name = original_file_name + '_' + max_width + '-thumbnail.' + file_ext;
+		
+		easyimg.thumbnail({
+			src:original_image_path,
+			dst:path.join(appRoot.path,'/public/images/thumbnail/' + new_file_name),
+			width:max_width,
+			height:thumbnail_max_height
+		}).then(
+			function(image){
+				return_object = {
+					code:200,
+					message:'success',
+					image_thumbnail_name:image.name,
+					image_thumbnail_path:'http://bettyvelvet.me:3001/images/thumbnail/' + new_file_name
+				};
+				
+				callback(null, return_object);
+			},function(err){
+				return_object = {
+					code:500,
+					message:err.message,
+					image_thumbnail_name:'',
+					image_thumbnail_path:''
+				};
+				
+				callback(null, return_object);
+			}
+		);
+	},function(err, return_object){
+		console.log(return_object);
+		callback(null, object);
+	});
+};
+
+/*
 var create_thumbnail = function(original_image_path, callback){
 	var thumbnail_max_width = [130, 200, 300];
 	
@@ -138,5 +186,6 @@ var create_thumbnail = function(original_image_path, callback){
 		}
 	);
 };
+*/
 
 module.exports = router;
