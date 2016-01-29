@@ -40,7 +40,7 @@ router.post('/imageUpload', multer({
       						message:'No Image File',
       						desc:'rename_file error',
       						original_image_path:'',
-      						original_name:original_name
+      						original_name:''
       					};
       					fs.unlinkSync(old_file_path);
       					callback(new Error(return_object.message), return_object);
