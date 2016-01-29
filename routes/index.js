@@ -23,9 +23,9 @@ router.post('/imageUpload', multer({
 	async.each(file_list, function(file, callback){
 		async.waterfall([
       		function(callback){
-      			var old_file_path = file_list[i].path;
-  				var new_file_path = path.join(appRoot.path,'/public/images/', file_list[i].originalname);
-  				rename_file(file_list[i].originalname, old_file_path, new_file_path, callback);
+      			var old_file_path = file.path;
+  				var new_file_path = path.join(appRoot.path,'/public/images/', file.originalname);
+  				rename_file(file.originalname, old_file_path, new_file_path, callback);
       		},
       		function(return_object, callback){
       			get_file_info(return_object, callback);
