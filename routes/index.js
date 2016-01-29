@@ -100,14 +100,11 @@ var get_file_info = function(object, parent_callback){
 var create_thumbnail = function(object, parent_callback){
 	var thumbnail_max_width = [130, 200, 300];
 	
-	console.log(object);
-	
 	var original_image_path = object.original_image_path;
 	
 	var file = object.file_info;
 	
 	async.each(thumbnail_max_width, function(max_width, callback){
-		console.log(max_width);
 		var thumbnail_max_height = max_width * (file.height / file.width);
 		var file_name_split = file.name.split('.');
 		var original_file_name = file_name_split[0];
@@ -116,8 +113,6 @@ var create_thumbnail = function(object, parent_callback){
 		
 		var return_object = {};
 		
-		callback(null);
-		/*
 		easyimg.thumbnail({
 			src:original_image_path,
 			dst:path.join(appRoot.path,'/public/images/thumbnail/' + new_file_name),
@@ -132,9 +127,8 @@ var create_thumbnail = function(object, parent_callback){
 					image_thumbnail_path:'http://bettyvelvet.me:3001/images/thumbnail/' + new_file_name
 				};
 				
-				object.thumbnail_result = return_object;
-				
-				//callback(null, return_object);
+				//object.thumbnail_result = return_object;
+				callback(null, return_object);
 			},function(err){
 				return_object = {
 					code:500,
@@ -143,13 +137,12 @@ var create_thumbnail = function(object, parent_callback){
 					image_thumbnail_path:''
 				};
 				
-				object.thumbnail_result = return_object;
-				//callback(null, return_object);
+				//object.thumbnail_result = return_object;
+				callback(null, return_object);
 			}
 		);
-		*/
-	},function(err){
-		//console.log(object);
+	},function(err, return_object){
+		console.log(return_object);
 		parent_callback(null, object);
 	});
 };
