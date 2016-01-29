@@ -7,46 +7,6 @@ var appRoot = require('app-root-path');
 var multer = require('multer');
 var async = require('async');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-router.post('/imageUpload', multer({
-	dest:path.join(appRoot.path,'/public/images/')
-}).any(), function(req, res, next){
-	
-	var return_object_list = [];
-	
-	var file_list = req.files;
-	
-	var file_control = new file_control();
-	
-	async.each(file_list, function(file, callback){
-		async.waterfall([
-      		function(callback){
-      			var old_file_path = file.path;
-  				var new_file_path = path.join(appRoot.path,'/public/images/', file.originalname);
-  				
-  				file_control.set_init(file.originalname, old_file_path, new_file_path);				
-  				file_control.rename_file(callback);
-      		},
-      		function(return_object, callback){
-      			file_control.get_file_info(return_object, callback);
-      		},
-      		function(return_object, callback){
-      			console.log(return_object);
-      			callback(null, return_object);
-      		}
-      	],function(err, return_object){
- 			return_object_list.push(return_object);
- 			callback(null);
-      	});
-	}, function(err){
-		res.json(return_object_list);
-	});
-});
-
 var file_control = function(){
 	this.original_name = '',
 	this.old_file_path = '',
@@ -116,6 +76,46 @@ file_control.prototype.get_file_info = function(callback){
 		}
 	);
 };
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
+router.post('/imageUpload', multer({
+	dest:path.join(appRoot.path,'/public/images/')
+}).any(), function(req, res, next){
+	
+	var return_object_list = [];
+	
+	var file_list = req.files;
+	
+	var file_control = new file_control();
+	
+	async.each(file_list, function(file, callback){
+		async.waterfall([
+      		function(callback){
+      			var old_file_path = file.path;
+  				var new_file_path = path.join(appRoot.path,'/public/images/', file.originalname);
+  				
+  				file_control.set_init(file.originalname, old_file_path, new_file_path);				
+  				file_control.rename_file(callback);
+      		},
+      		function(return_object, callback){
+      			file_control.get_file_info(return_object, callback);
+      		},
+      		function(return_object, callback){
+      			console.log(return_object);
+      			callback(null, return_object);
+      		}
+      	],function(err, return_object){
+ 			return_object_list.push(return_object);
+ 			callback(null);
+      	});
+	}, function(err){
+		res.json(return_object_list);
+	});
+});
 
 /*
 var get_file_info = function(object, callback){
