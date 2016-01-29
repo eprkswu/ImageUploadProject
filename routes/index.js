@@ -28,7 +28,7 @@ router.post('/imageUpload', multer({
       				case 'image/pjpeg':
       				case 'image/gif':
       				case 'image/png':
-      				case 'image/bmp:
+      				case 'image/bmp':
       				case 'image/x-windows-bmp':
       					var old_file_path = file.path;
       	  				var new_file_path = path.join(appRoot.path,'/public/images/', file.originalname);
