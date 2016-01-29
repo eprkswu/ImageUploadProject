@@ -104,6 +104,8 @@ var create_thumbnail = function(object, parent_callback){
 	
 	var original_image_path = object.original_image_path;
 	
+	var file = object.file_info;
+	
 	async.each(thumbnail_max_width, function(max_width, callback){
 		console.log(max_width);
 		var thumbnail_max_height = max_width * (file.height / file.width);
