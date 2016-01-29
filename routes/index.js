@@ -62,6 +62,10 @@ router.post('/imageUpload', multer({
       			create_thumbnail(return_object, callback);
       		}
       	],function(err, return_object){
+			if(return_object.original_image_path != ''){
+				return_object.original_image_path = '/images/' + return_object.file_info.name;
+			}
+			delete return_object['file_info'];
  			return_object_list.push(return_object);
  			callback(null);
       	});
@@ -106,6 +110,7 @@ var get_file_info = function(object, parent_callback){
 				message:'success',
 				desc:'',
 				original_image_path:object.original_image_path,
+				original_name:object.original_name,
 				file_info:file
 			};
 			
@@ -117,7 +122,8 @@ var get_file_info = function(object, parent_callback){
 				message:err.message,
 				desc:'get_file_info error',
 				original_image_path:'',
-				original_name:object.original_name
+				original_name:object.original_name,
+				file_info:{}
 			};
 			
 			parent_callback(new Error(return_object.message), return_object);
