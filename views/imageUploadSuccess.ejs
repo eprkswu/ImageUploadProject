@@ -1,3 +1,18 @@
-<script>
-var data = <%- return_object_list %>;
-</script>
+<!DOCTYPE html>
+<html>
+  <body>
+  	<script src="/js/lib/jquery.min.js"></script>
+  	<script>
+  	document.domain = "bettyvelvet.me";
+  	$(function(){
+  		var data = <%- return_object_list %>;
+  		
+  		$.each(data, function(i){
+  			if($(this).code == 200){
+  				parent.$("input[type='file']").hide();
+	  		}
+  		});
+  	});
+	</script>
+  </body>
+</html>
