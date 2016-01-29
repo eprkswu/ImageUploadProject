@@ -23,10 +23,28 @@ router.post('/imageUpload', multer({
 	async.each(file_list, function(file, callback){
 		async.waterfall([
       		function(callback){
-      			console.log(file);
-      			var old_file_path = file.path;
-  				var new_file_path = path.join(appRoot.path,'/public/images/', file.originalname);
-  				rename_file(file.originalname, old_file_path, new_file_path, callback);
+      			switch(file.mimetype){
+      				case 'image/jpeg':
+      				case 'image/pjpeg':
+      				case 'image/gif':
+      				case 'image/png':
+      				case 'image/bmp:
+      				case 'image/x-windows-bmp':
+      					var old_file_path = file.path;
+      	  				var new_file_path = path.join(appRoot.path,'/public/images/', file.originalname);
+      	  				rename_file(file.originalname, old_file_path, new_file_path, callback);
+      	  				break;
+      				default:
+      					return_object = {
+      						code:500,
+      						message:'No Image File',
+      						desc:'rename_file error',
+      						original_image_path:'',
+      						original_name:original_name
+      					};
+      					fs.unlinkSync(old_file_path);
+      					callback(new Error(return_object.message), return_object);
+      			}
       		},
       		function(return_object, callback){
       			get_file_info(return_object, callback);
