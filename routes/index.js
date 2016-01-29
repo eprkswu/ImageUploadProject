@@ -104,6 +104,8 @@ var create_thumbnail = function(object, parent_callback){
 	
 	var file = object.file_info;
 	
+	object.thumbnail_result = [];
+	
 	async.each(thumbnail_max_width, function(max_width, callback){
 		var thumbnail_max_height = max_width * (file.height / file.width);
 		var file_name_split = file.name.split('.');
