@@ -42,9 +42,13 @@ router.post('/imageUpload', multer({
       						original_image_path:'',
       						original_name:''
       					};
-      				console.log(file);
-      					fs.unlinkSync(file.path);
-      					callback(new Error(return_object.message), return_object);
+      					fs.unlink(file.path, function(err){
+      						if(err){
+      							callback(new Error(err.message), return_object);
+      						}else{
+      							callback(new Error(return_object.message), return_object);
+      						}
+      					});
       			}
       		},
       		function(return_object, callback){
