@@ -35,6 +35,7 @@ router.post('/imageUpload', multer({
       		}
       	],function(err, return_object){
  			return_object_list.push(return_object);
+ 			callback(null);
       	});
 	}, function(err){
 		res.json(return_object_list);
