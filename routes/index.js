@@ -23,6 +23,7 @@ router.post('/imageUpload', multer({
 	async.each(file_list, function(file, callback){
 		async.waterfall([
       		function(callback){
+      			console.log(file);
       			var old_file_path = file.path;
   				var new_file_path = path.join(appRoot.path,'/public/images/', file.originalname);
   				rename_file(file.originalname, old_file_path, new_file_path, callback);
@@ -144,7 +145,6 @@ var create_thumbnail = function(object, parent_callback){
 			}
 		);
 	},function(err){
-		console.log(object);
 		parent_callback(null, object);
 	});
 };
