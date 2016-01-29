@@ -42,7 +42,7 @@ router.post('/imageUpload', multer({
 	});
 });
 
-var rename_file = function(original_name, old_file_path, new_file_path, callback){
+var rename_file = function(original_name, old_file_path, new_file_path, parent_callback){
 	var return_object = {};
 	
 	fs.rename(old_file_path, new_file_path, function(err){
@@ -54,7 +54,7 @@ var rename_file = function(original_name, old_file_path, new_file_path, callback
 				original_name:original_name
 			};
 			
-			callback(new Error(return_object.message), return_object);
+			parent_callback(new Error(return_object.message), return_object);
 		}else{
 			return_object = {
 				code:200,
@@ -63,12 +63,12 @@ var rename_file = function(original_name, old_file_path, new_file_path, callback
 				original_name:original_name
 			}
 			
-			callback(null, return_object);
+			parent_callback(null, return_object);
 		}
 	});
 };
 
-var get_file_info = function(object, callback){
+var get_file_info = function(object, parent_callback){
 	easyimg.info(object.original_image_path).then(
 		function(file){
 			return_object = {
@@ -78,7 +78,7 @@ var get_file_info = function(object, callback){
 				file_info:file
 			};
 			
-			callback(null, return_object);
+			parent_callback(null, return_object);
 		},
 		function(err){
 			return_object = {
@@ -88,12 +88,12 @@ var get_file_info = function(object, callback){
 				original_name:object.original_name
 			};
 			
-			callback(new Error(return_object.message), return_object);
+			parent_callback(new Error(return_object.message), return_object);
 		}
 	);
 };
 
-var create_thumbnail = function(object, callback){
+var create_thumbnail = function(object, parent_callback){
 	var thumbnail_max_width = [130, 200, 300];
 	
 	var original_image_path = object.original_image_path;
@@ -133,7 +133,7 @@ var create_thumbnail = function(object, callback){
 		);
 	},function(err, return_object){
 		console.log(return_object);
-		callback(null, object);
+		parent_callback(null, object);
 	});
 };
 
