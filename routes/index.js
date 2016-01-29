@@ -18,8 +18,9 @@ router.post('/imageUpload', multer({
 	var return_object = {};
 	
 	for(var i in req.files){
+		var old_file_path = req.files[i].path;
 		var new_file_path = path.join(appRoot.path,'/public/images/', req.files[i].originalname);
-		return_object = rename_file(new_file_path);
+		return_object = rename_file(old_file_path, new_file_path);
 		if(return_object.code == 200){
 			return_object = create_thumbnail(new_file_path);
 		}else{
@@ -30,10 +31,10 @@ router.post('/imageUpload', multer({
 	res.json(return_object);
 });
 
-var rename_file = function(new_file_path){
+var rename_file = function(old_file_path, new_file_path){
 	var return_object = {};
 	
-	fs.rename(req.files[i].path, new_file_path, function(err){
+	fs.rename(old_file_path, new_file_path, function(err){
 		if(err){
 			return_object = {
 				code:500,
