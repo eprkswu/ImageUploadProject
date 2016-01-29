@@ -7,76 +7,6 @@ var appRoot = require('app-root-path');
 var multer = require('multer');
 var async = require('async');
 
-var FileControl = function(){
-	this.original_name = '',
-	this.old_file_path = '',
-	this.new_file_path = ''
-};
-
-FileControl.prototype.set_init = function(original_name, old_file_path, new_file_path){
-	var _this = this;
-	
-	_this.original_name = original_name;
-	_this.old_file_path = old_file_path;
-	_this.new_file_path = new_file_path;
-};
-
-FileControl.prototype.rename_file = function(callback){
-	var return_object = {};
-	
-	var _this = this;
-	
-	fs.rename(_this.old_file_path, _this.new_file_path, function(err){
-		if(err){
-			return_object = {
-				code:500,
-				message:err.message,
-				original_name:_this.original_name
-			};
-			
-			callback(new Error(return_object.message), return_object);
-		}else{
-			return_object = {
-				code:200,
-				message:'success',
-				original_name:_this.original_name
-			}
-			
-			callback(null, return_object);
-		}
-	});
-};
-/*
-var rename_file = function(original_name, old_file_path, new_file_path, callback){
-	
-};
-*/
-
-FileControl.prototype.get_file_info = function(callback){
-	var _this = this;
-	easyimg.info(_this.new_file_path).then(
-		function(file){
-			return_object = {
-				code:200,
-				message:'success',
-				original_name:_this.original_name,
-				file_info:file
-			};
-			
-			callback(null, return_object);
-		},
-		function(err){
-			return_object = {
-				code:500,
-				message:err.message,
-				original_name:_this.original_name
-			};
-			
-			callback(new Error(return_object.message), return_object);
-		}
-	);
-};
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -90,19 +20,15 @@ router.post('/imageUpload', multer({
 	
 	var file_list = req.files;
 	
-	var file_control = new FileControl();
-	
 	async.each(file_list, function(file, callback){
 		async.waterfall([
       		function(callback){
       			var old_file_path = file.path;
   				var new_file_path = path.join(appRoot.path,'/public/images/', file.originalname);
-  				
-  				file_control.set_init(file.originalname, old_file_path, new_file_path);				
-  				file_control.rename_file(callback);
+  				rename_file(file.originalname, old_file_path, new_file_path, callback);
       		},
       		function(return_object, callback){
-      			file_control.get_file_info(return_object, callback);
+      			get_file_info(return_object, callback);
       		},
       		function(return_object, callback){
       			console.log(return_object);
@@ -117,7 +43,30 @@ router.post('/imageUpload', multer({
 	});
 });
 
-/*
+var rename_file = function(original_name, old_file_path, new_file_path, callback){
+	var return_object = {};
+	
+	fs.rename(old_file_path, new_file_path, function(err){
+		if(err){
+			return_object = {
+				code:500,
+				message:err.message,
+				original_name:original_name
+			};
+			
+			callback(new Error(return_object.message), return_object);
+		}else{
+			return_object = {
+				code:200,
+				original_image_path:new_file_path,
+				original_name:original_name
+			}
+			
+			callback(null, return_object);
+		}
+	});
+};
+
 var get_file_info = function(object, callback){
 	easyimg.info(object.original_image_path).then(
 		function(file){
@@ -140,7 +89,6 @@ var get_file_info = function(object, callback){
 		}
 	);
 };
-*/
 
 var create_thumbnail = function(original_image_path, callback){
 	var thumbnail_max_width = [130, 200, 300];
