@@ -127,8 +127,8 @@ var create_thumbnail = function(object, parent_callback){
 					image_thumbnail_path:'http://bettyvelvet.me:3001/images/thumbnail/' + new_file_name
 				};
 				
-				//object.thumbnail_result = return_object;
-				callback(null, return_object);
+				object.thumbnail_result = return_object;
+				//callback(null, return_object);
 			},function(err){
 				return_object = {
 					code:500,
@@ -137,12 +137,12 @@ var create_thumbnail = function(object, parent_callback){
 					image_thumbnail_path:''
 				};
 				
-				//object.thumbnail_result = return_object;
-				callback(null, return_object);
+				object.thumbnail_result = return_object;
+				//callback(null, return_object);
 			}
 		);
-	},function(err, return_object){
-		console.log(return_object);
+	},function(err){
+		console.log(object);
 		parent_callback(null, object);
 	});
 };
