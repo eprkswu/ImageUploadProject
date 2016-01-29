@@ -7,13 +7,13 @@ var appRoot = require('app-root-path');
 var multer = require('multer');
 var async = require('async');
 
-var file_control = function(){
+var FileControl = function(){
 	this.original_name = '',
 	this.old_file_path = '',
 	this.new_file_path = ''
 };
 
-file_control.prototype.set_init = function(original_name, old_file_path, new_file_path){
+FileControl.prototype.set_init = function(original_name, old_file_path, new_file_path){
 	var _this = this;
 	
 	_this.original_name = original_name;
@@ -21,7 +21,7 @@ file_control.prototype.set_init = function(original_name, old_file_path, new_fil
 	_this.new_file_path = new_file_path;
 };
 
-file_control.prototype.rename_file = function(callback){
+FileControl.prototype.rename_file = function(callback){
 	var return_object = {};
 	
 	var _this = this;
@@ -52,7 +52,7 @@ var rename_file = function(original_name, old_file_path, new_file_path, callback
 };
 */
 
-file_control.prototype.get_file_info = function(callback){
+FileControl.prototype.get_file_info = function(callback){
 	var _this = this;
 	easyimg.info(_this.new_file_path).then(
 		function(file){
@@ -90,7 +90,7 @@ router.post('/imageUpload', multer({
 	
 	var file_list = req.files;
 	
-	var file_control = new file_control();
+	var file_control = new FileControl();
 	
 	async.each(file_list, function(file, callback){
 		async.waterfall([
