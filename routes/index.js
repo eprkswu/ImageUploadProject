@@ -5,6 +5,7 @@ var easyimg = require('easyimage');
 var path = require('path');
 var appRoot = require('app-root-path');
 var multer = require('multer');
+var async = require('async');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,43 +16,79 @@ router.post('/imageUpload', multer({
 	dest:path.join(appRoot.path,'/public/images/')
 }).any(), function(req, res, next){
 	
-	var return_object = {};
+	var return_object_list = [];
 	
-	for(var i in req.files){
-		var old_file_path = req.files[i].path;
-		var new_file_path = path.join(appRoot.path,'/public/images/', req.files[i].originalname);
-		return_object = rename_file(old_file_path, new_file_path);
-		if(return_object.code == 200){
-			return_object = create_thumbnail(new_file_path);
-		}else{
-			res.json(return_object);
-		}
+	var file_list = req.files;
+	
+	for(var i in file_list){
+		async.waterfall([
+     		function(callback){
+     			var old_file_path = file_list[i].path;
+ 				var new_file_path = path.join(appRoot.path,'/public/images/', file_list[i].originalname);
+ 				rename_file(file_list[i].originalname, old_file_path, new_file_path, callback);
+     		},
+     		function(return_object, callback){
+     			get_file_info(return_object, callback);
+     		},
+     		function(return_object, callback){
+     			callback(null, return_object);
+     		}
+     	],function(err, results){
+			console.log(results);
+     	});
 	}
 	
 	res.json(return_object);
 });
 
-var rename_file = function(old_file_path, new_file_path){
+var rename_file = function(original_name, old_file_path, new_file_path, callback){
 	var return_object = {};
 	
 	fs.rename(old_file_path, new_file_path, function(err){
 		if(err){
 			return_object = {
 				code:500,
-				message:err.message
+				message:err.message,
+				original_name:original_name
 			};
 			
-			return return_object;
+			callback(new Error(return_object.message), return_object);
 		}else{
 			return_object = {
-				code:200	
-			};
-			return return_object;
+				code:200,
+				original_image_path:new_file_path,
+				original_name:original_name
+			}
+			
+			callback(null, return_object);
 		}
 	});
 };
 
-var create_thumbnail = function(original_image_path){
+var get_file_info = function(object, callback){
+	easyimg.info(object.original_image_path).then(
+		function(file){
+			return_object = {
+				code:200,
+				original_image_path:object.original_image_path,
+				file_info:file
+			};
+			
+			callback(null, return_object);
+		},
+		function(err){
+			return_object = {
+				code:500,
+				message:err.message,
+				original_name:object.original_name
+			};
+			
+			callback(new Error(return_object.message), return_object);
+		}
+	);
+};
+
+var create_thumbnail = function(original_image_path, callback){
 	var thumbnail_max_width = [130, 200, 300];
 	
 	var return_object = {};
@@ -59,10 +96,7 @@ var create_thumbnail = function(original_image_path){
 	easyimg.info(original_image_path).then(
 		function(file){
 			for(var i in thumbnail_max_width){
-				console.log(file.height);
-				console.log(file.width);
 				var thumbnail_max_height = thumbnail_max_width[i] * (file.height / file.width);
-				console.log(thumbnail_max_height);
 				var file_name_split = file.name.split('.');
 				var original_file_name = file_name_split[0];
 				var file_ext = file_name_split[1];
