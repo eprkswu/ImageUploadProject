@@ -15,27 +15,26 @@ router.post('/imageUpload', multer({
 	dest:path.join(appRoot.path,'/public/images/')
 }).any(), function(req, res, next){
 	
-	for(var i in req.files){
-		console.log(req.files[i]);
-	}
-	res.json({result:'12312'});
-	
-	//파일 이동 처리
-	/*
-	var upload_path = appRoot.path;
-	
 	var return_object = {};
-	console.log(req);
-	console.log(req.files);
 	
-	if(upload_success == true){
-		return_object = create_thumbnail(upload_file_path);
+	for(var i in req.files){
+		var new_file_path = path.join(appRoot.path,'/public/images/', req.files[i].originalname);
 		
-		res.send(return_object);
-	}else{
-		res.send('121313');
+		fs.rename(req.files[i].path, new_file_path, function(err){
+			if(err){
+				return_object = {
+					code:500,
+					message:err.message
+				};
+				
+				res.json(return_object);
+			}else{
+				return_object = create_thumbnail(new_file_path);
+				
+				res.json(return_object);
+			}
+		});
 	}
-	*/
 });
 
 var create_thumbnail = function(original_image_path){
