@@ -128,7 +128,7 @@ var create_thumbnail = function(object, parent_callback){
 				};
 				
 				object.thumbnail_result.push(return_object);
-				//callback(null);
+				callback(null);
 			},function(err){
 				return_object = {
 					code:500,
@@ -138,7 +138,7 @@ var create_thumbnail = function(object, parent_callback){
 				};
 				
 				object.thumbnail_result.push(return_object);
-				//callback(null);
+				callback(null);
 			}
 		);
 	},function(err){
