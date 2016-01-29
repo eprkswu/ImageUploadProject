@@ -50,6 +50,7 @@ var rename_file = function(original_name, old_file_path, new_file_path, parent_c
 			return_object = {
 				code:500,
 				message:err.message,
+				desc:'rename_file error',
 				original_image_path:'',
 				original_name:original_name
 			};
@@ -59,6 +60,7 @@ var rename_file = function(original_name, old_file_path, new_file_path, parent_c
 			return_object = {
 				code:200,
 				message:'success',
+				desc:'',
 				original_image_path:new_file_path,
 				original_name:original_name
 			}
@@ -74,6 +76,7 @@ var get_file_info = function(object, parent_callback){
 			return_object = {
 				code:200,
 				message:'success',
+				desc:'',
 				original_image_path:object.original_image_path,
 				file_info:file
 			};
@@ -84,6 +87,7 @@ var get_file_info = function(object, parent_callback){
 			return_object = {
 				code:500,
 				message:err.message,
+				desc:'get_file_info error',
 				original_image_path:'',
 				original_name:object.original_name
 			};
@@ -98,7 +102,7 @@ var create_thumbnail = function(object, parent_callback){
 	
 	var original_image_path = object.original_image_path;
 	
-	async.each(thumbnail_max_width, function(max_width, callback){
+	async.forEach(thumbnail_max_width, function(max_width, callback){
 		var thumbnail_max_height = max_width * (file.height / file.width);
 		var file_name_split = file.name.split('.');
 		var original_file_name = file_name_split[0];
