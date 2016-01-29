@@ -114,6 +114,7 @@ var create_thumbnail = function(object, parent_callback){
 		
 		var return_object = {};
 		
+		callback(null);
 		/*
 		easyimg.thumbnail({
 			src:original_image_path,
