@@ -66,7 +66,7 @@ router.post('/imageUpload', multer({
  			callback(null);
       	});
 	}, function(err){
-		res.render('imageUploadSuccess', {return_object_list:return_object_list});
+		res.render('imageUploadSuccess', {return_object_list:JSON.stringify(return_object_list)});
 	});
 });
 
