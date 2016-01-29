@@ -73,7 +73,7 @@ var get_file_info = function(object, callback){
 		function(file){
 			return_object = {
 				code:200,
-				message:'success';
+				message:'success',
 				original_image_path:object.original_image_path,
 				file_info:file
 			};
