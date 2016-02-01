@@ -20,10 +20,10 @@
   				parent.$("input[type='file']:eq("+i+")").remove();
   				
   				parent.$(".image_disp_layer:eq("+i+")").html("<img src=\""+thumbnail_url+"\" style=\"width:130;height:130\" />");
-  				parent.$(".image_disp_layer:eq("+i+")").data("original_image",item.original_image_path);
-  				parent.$(".image_disp_layer:eq("+i+")").data("thumbnail_image_130",item.thumbnail_result[0].image_thumbnail_path);
-  				parent.$(".image_disp_layer:eq("+i+")").data("thumbnail_image_200",item.thumbnail_result[1].image_thumbnail_path);
-  				parent.$(".image_disp_layer:eq("+i+")").data("thumbnail_image_300",item.thumbnail_result[2].image_thumbnail_path);
+  				parent.$(".image_disp_layer:eq("+i+")").attr("original_image",item.original_image_path);
+  				parent.$(".image_disp_layer:eq("+i+")").attr("thumbnail_image_130",item.thumbnail_result[0].image_thumbnail_path);
+  				parent.$(".image_disp_layer:eq("+i+")").attr("thumbnail_image_200",item.thumbnail_result[1].image_thumbnail_path);
+  				parent.$(".image_disp_layer:eq("+i+")").attr("thumbnail_image_300",item.thumbnail_result[2].image_thumbnail_path);
   				parent.$(".image_disp_layer:eq("+i+")").show();
   				
   						
