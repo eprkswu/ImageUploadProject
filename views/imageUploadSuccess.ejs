@@ -15,7 +15,7 @@
   					_this_host += ":"+window.location.port;
   				}
   				
-  				thumbnail_url = _this_host + thumbnail_url;
+  				thumbnail_url = "//" + _this_host + thumbnail_url;
   			
   				parent.$("input[type='file']:eq("+i+")").remove();
   				
