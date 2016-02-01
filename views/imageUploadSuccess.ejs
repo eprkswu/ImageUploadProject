@@ -17,7 +17,7 @@
   				
   				thumbnail_url = "//" + _this_host + thumbnail_url;
   			
-  				parent.$("input[type='file']:eq("+i+")").remove();
+  				parent.$("input[type='file']:eq("+i+")").hide();
   				
   				parent.$(".image_disp_layer:eq("+i+")").html("<img src=\""+thumbnail_url+"\" style=\"width:130;height:130\" />");
   				parent.$(".image_disp_layer:eq("+i+")").attr("original_image",item.original_image_path);
@@ -25,9 +25,13 @@
   				parent.$(".image_disp_layer:eq("+i+")").attr("thumbnail_image_200",item.thumbnail_result[1].image_thumbnail_path);
   				parent.$(".image_disp_layer:eq("+i+")").attr("thumbnail_image_300",item.thumbnail_result[2].image_thumbnail_path);
   				parent.$(".image_disp_layer:eq("+i+")").show();
-  				
-  						
 	  		}
+  		});
+  		
+  		parent.$("input[type='file']").each(function(i){
+  			if($(this).css("display") == "none"){
+  				$(this).remove();
+  			}
   		});
   	});
 	</script>
