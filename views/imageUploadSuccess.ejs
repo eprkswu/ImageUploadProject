@@ -9,21 +9,25 @@
   		var image_data = "";
   		$.each(data, function(i, item){
   			if(item.code == 200){
-  				var thumbnail_url = item.thumbnail_result[0].image_thumbnail_path;
-  				var _this_host = window.location.host;
+				var _this_host = window.location.host;
   				if($.trim(window.location.port) != ""){
   					_this_host += ":"+window.location.port;
-  				}
+  				}  			
+  			
+  				var original_url = "//" + _this_host + item.original_image_path;
   				
-  				thumbnail_url = "//" + _this_host + thumbnail_url;
+  				var thumbnail_url = [];
+  				$.each(item.thumbnail_result, function(i){
+  					thumbnail_url.push("//" + _this_host + item.thumbnail_result[i].image_thumbnail_path);
+  				});
   			
   				parent.$("input[type='file']:eq("+i+")").hide();
   				
-  				parent.$(".image_disp_layer:eq("+i+")").html("<img src=\""+thumbnail_url+"\" style=\"width:130;height:130\" />");
+  				parent.$(".image_disp_layer:eq("+i+")").html("<img src=\""+thumbnail_url[0]+"\" style=\"width:130;height:130\" />");
   				parent.$(".image_disp_layer:eq("+i+")").attr("original_image",item.original_image_path);
-  				parent.$(".image_disp_layer:eq("+i+")").attr("thumbnail_image_130",item.thumbnail_result[0].image_thumbnail_path);
-  				parent.$(".image_disp_layer:eq("+i+")").attr("thumbnail_image_200",item.thumbnail_result[1].image_thumbnail_path);
-  				parent.$(".image_disp_layer:eq("+i+")").attr("thumbnail_image_300",item.thumbnail_result[2].image_thumbnail_path);
+  				parent.$(".image_disp_layer:eq("+i+")").attr("thumbnail_image_130",thumbnail_url[0]);
+  				parent.$(".image_disp_layer:eq("+i+")").attr("thumbnail_image_200",thumbnail_url[1]);
+  				parent.$(".image_disp_layer:eq("+i+")").attr("thumbnail_image_300",thumbnail_url[2]);
   				parent.$(".image_disp_layer:eq("+i+")").show();
 	  		}
   		});
