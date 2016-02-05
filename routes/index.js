@@ -160,7 +160,8 @@ var create_thumbnail = function(object, parent_callback){
 					code:200,
 					message:'success',
 					image_thumbnail_name:image.name,
-					image_thumbnail_path:'/images/thumbnail/' + new_file_name
+					image_thumbnail_path:'/images/thumbnail/' + new_file_name,
+					size:max_width
 				};
 				
 				object.thumbnail_result.push(return_object);
@@ -170,7 +171,8 @@ var create_thumbnail = function(object, parent_callback){
 					code:500,
 					message:err.message,
 					image_thumbnail_name:'',
-					image_thumbnail_path:''
+					image_thumbnail_path:'',
+					size:0
 				};
 				
 				object.thumbnail_result.push(return_object);
