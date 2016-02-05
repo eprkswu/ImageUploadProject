@@ -21,13 +21,13 @@
   				var thumbnail_url_300 = '';
   				$.each(item.thumbnail_result, function(i){
   					switch(item.thumbnail_result[i].size){
-  						case '130':
+  						case 130:
   							thumbnail_url_130 = "//" + _this_host + item.thumbnail_result[i].image_thumbnail_path;
   							break;
-  						case '200':
+  						case 200:
   							thumbnail_url_200 = "//" + _this_host + item.thumbnail_result[i].image_thumbnail_path;
   							break;
-  						case '300':
+  						case 300:
   							thumbnail_url_300 = "//" + _this_host + item.thumbnail_result[i].image_thumbnail_path;
   							break;
   					}
